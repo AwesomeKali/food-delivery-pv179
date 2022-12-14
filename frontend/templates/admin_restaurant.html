@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Food Delivery</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{{url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="/admin/home">DeliverX</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+                    </ul>
+                </div>
+              </div>
+        </nav>
+        <section class="vh-100" style="background-color: #eee;">
+          <div class="container h-50">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+              <div class="row align-items-center">
+                <div class="col-4"><a href="/admin/home"><button type="button" class="btn btn-secondary">Restaurants</button></a></div>
+                <div class="col-4"><a href="{{url_for('render_show_users')}}"><button type="button" class="btn btn-secondary">Users</button></a></div>
+                <div class="col-4"><a href="#"><button type="button" class="btn btn-secondary" >Admins</button></a></div>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">name</th>
+                    <th scope="col">description</th>
+                    <th scope="col">price</th>
+                    <th scope="col">type</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for meal in data %}
+                  <tr>
+                    <form action="{{ url_for('edit_food') }}" method="POST" id="searchForm">
+                    <th scope="row">{{ meal.id }}<input hidden type="number" name="id" value="{{ meal.id }}"></th>
+                    <td><input type="text" name="name" value="{{ meal.name }}"></td>
+                    <td><input type="text" name="description" value="{{ meal.description }}"></td>
+                    <td><input type="number" name="price" min=0 step="0.01" value="{{ meal.price }}"></td>
+                    <td><input type="text" name="mealType" value="{{ meal.mealType }}"></td>
+                    <td>
+                      <ul class="list-inline m-0">
+                        <li class="list-inline-item">
+                            <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                        </li>
+                        <li class="list-inline-item">
+                            <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="deleteSomething({{meal.id}})"><i class="fa fa-trash"></i></button>
+                        </li>
+                    </ul>
+                    </td>
+                  </tr>
+                  </form>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+</body>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+  <div class="container px-4 px-lg-5"><p class="m-0 text-center text-white">Copyright &copy</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+
+<script>
+  function deleteSomething(id) {
+    console.log("som tu" + id)
+  fetch('/delete_food/'+id,  {
+    method: 'GET'
+  })
+}
+
+function editSomething() {
+    console.log("som tu")
+  fetch('/edit_food/',  {
+    method: 'GET'
+  })
+}
+</script>
+</body>
+</html>
